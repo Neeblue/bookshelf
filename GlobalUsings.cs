@@ -1,0 +1,9 @@
+﻿global using Bookshelf.Models;
+global using Bookshelf.Services;
+global using Bookshelf.ViewModels;
+global using Bookshelf.Views;
+global using CommunityToolkit.Mvvm.ComponentModel;
+global using CommunityToolkit.Mvvm.Input;
+global using System.Collections.ObjectModel;
+global using System.Diagnostics;
+global using System.Text.Json;

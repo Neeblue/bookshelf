@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Bookshelf.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:Bookshelf.Models"
+    xmlns:viewmodel="clr-namespace:Bookshelf.ViewModels"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    ios:Page.UseSafeArea="True"
+    Title="Bookshelf"
+    x:DataType="viewmodel:MainViewModel">
+    <Grid
+        ColumnDefinitions="*,*"
+        ColumnSpacing="5"
+        RowDefinitions="*,Auto"
+        RowSpacing="0"
+        BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
+        <RefreshView
+            Grid.ColumnSpan="2"
+            Command="{Binding GetBooksCommand}"
+            IsRefreshing="{Binding IsRefreshing}">
+            <ContentView>
+                <CollectionView
+                        ItemsSource="{Binding Books}"
+                        SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <StackLayout Padding="100">
+                            <Image
+                                    HorizontalOptions="Center"
+                                    HeightRequest="140"
+                                    WidthRequest="140"
+                                    Source="nodata.png"
+                                    VerticalOptions="Center" />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+                    <!--<CollectionView.ItemsLayout>
+                            <GridItemsLayout  Orientation="Horizontal" Span="3"/>
+                        </CollectionView.ItemsLayout>-->
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Book">
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Delete" BackgroundColor="#ff8282" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DeleteBookCommand}" CommandParameter="{Binding .}" />
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                                <Frame HeightRequest="140" Style="{StaticResource CardView}" Padding="0" HorizontalOptions="Fill">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=GoToDetailsCommand}" CommandParameter="{Binding .}"/>
+                                    </Frame.GestureRecognizers>
+                                    <Grid ColumnDefinitions="Auto,*">
+                                        <Image Aspect="AspectFill" HeightRequest="140" WidthRequest="140" Source="{Binding ImageHighQuality}" />
+                                        <VerticalStackLayout VerticalOptions="Center" Grid.Column="1" Margin="20,0,0,0" Padding="10">
+                                            <Label Style="{StaticResource LargeLabel}" 
+                                                   Text="{Binding Title}" 
+                                                   TextColor="{AppThemeBinding Dark={StaticResource Accent}, Light={StaticResource LabelText}}"
+                                                   Margin="0,0,0,8"/>
+                                            <Label Style="{StaticResource SmallLabel}" Text="{Binding Authors[0]}" />
+                                            <Label Style="{StaticResource SmallLabel}" Text="{Binding Rating}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Frame>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ContentView>
+        </RefreshView>
+
+        <Button
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="8"
+            Command="{Binding GetBooksCommand}"
+            IsEnabled="{Binding IsNotBusy}"
+            Style="{StaticResource ButtonOutline}"
+            Text="Get Books"
+            IsVisible="false"/>
+
+        <Button
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="8"
+            Command="{Binding AddBookCommand}"
+            IsEnabled="{Binding IsNotBusy}"
+            Style="{StaticResource ButtonOutline}"
+            Text="Add a book" />
+    </Grid>
+</ContentPage>

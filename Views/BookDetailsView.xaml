@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Bookshelf.Views.BookDetailsView"
+             xmlns:viewmodel="clr-namespace:Bookshelf.ViewModels"
+             x:DataType="viewmodel:BookDetailsViewModel"
+             Title="{Binding Book.Title}">
+
+    <Grid>
+        <Grid IsVisible="{OnIdiom Default=False, Desktop=True}"> <!--For desktop-->
+            <Grid MaximumHeightRequest="{Binding Height, Source={RelativeSource AncestorType={x:Type ContentPage}}}" 
+          MaximumWidthRequest="{Binding Width, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+          ColumnDefinitions="auto,*">
+                <Image Source="{Binding Book.ImageHighQuality}"/>
+                <ScrollView Grid.Column="1">
+                    <VerticalStackLayout Spacing="10" Margin="15">
+                        <Label Style="{StaticResource LargeLabel}" Text="{Binding Book.Title}" HorizontalOptions="Center" TextColor="{StaticResource Accent}"/>
+                        <Label Style="{StaticResource MediumLabel}" Text="{Binding Book.Rating}" HorizontalOptions="Center" TextColor="Orange"/>
+                        <Label Style="{StaticResource SmallLabel}" Text="{Binding Book.Publisher, StringFormat='Publisher: {0}'}" />
+                        <Label Style="{StaticResource SmallLabel}" Text="{Binding Book.PublishedDate, StringFormat='Release date: {0}'}" />
+                        <Label Style="{StaticResource SmallLabel}" Text="{Binding Book.PageCount, StringFormat='Page count: {0}'}" />
+                        <Label Style="{StaticResource SmallLabel}" Text="{Binding Book.Description}"/>
+                        <Label Style="{StaticResource SmallLabel}" Text="{Binding Book.ISBN_10, StringFormat='ISBN-10: {0}'}" />
+                        <Label Style="{StaticResource SmallLabel}" Text="{Binding Book.ISBN_13, StringFormat='ISBN-13: {0}'}" />
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Grid>
+        </Grid>
+        <Grid IsVisible="{OnIdiom Desktop=False, Default=True}"> <!--For phones-->
+            <ScrollView>
+                <Grid RowDefinitions="Auto, Auto">
+                    <Image Aspect="AspectFit"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"               
+               Source="{Binding Book.ImageHighQuality}"/>
+                    <VerticalStackLayout Margin="10" Grid.Row="1" Spacing="10">
+                        <Label Style="{StaticResource MediumLabel}" Text="{Binding Book.Rating}" HorizontalOptions="Center" TextColor="Orange"/>
+                        <Label Style="{StaticResource SmallLabel}" Text="{Binding Book.Publisher, StringFormat='Publisher: {0}'}" />
+                        <Label Style="{StaticResource SmallLabel}" Text="{Binding Book.PublishedDate, StringFormat='Release date: {0}'}" />
+                        <Label Style="{StaticResource SmallLabel}" Text="{Binding Book.PageCount, StringFormat='Page count: {0}'}" />
+                        <Label Style="{StaticResource SmallLabel}" Text="{Binding Book.Description}" />
+                        <Label Style="{StaticResource SmallLabel}" Text="{Binding Book.ISBN_10, StringFormat='ISBN-10: {0}'}" />
+                        <Label Style="{StaticResource SmallLabel}" Text="{Binding Book.ISBN_13, StringFormat='ISBN-13: {0}'}" />
+                    </VerticalStackLayout>
+                </Grid>
+            </ScrollView>
+        </Grid>
+    </Grid>
+    
+    
+    
+</ContentPage>
